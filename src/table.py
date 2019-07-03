@@ -41,20 +41,10 @@ def write_to_file(args, body):
 
 
 def get_style():
-    style = ["""
-    <style>
-    table {
-      font-family: arial, sans-serif;
-      border-collapse: collapse;
-      width: 100%;
-    }
-    td, th {
-      border: 1px solid #dddddd;
-      text-align: left;
-      padding: 8px;
-    }
-    </style>
-    """]
+    dirname = os.path.dirname(os.path.abspath(__file__))
+    style_file = os.path.join(dirname, "simple_style.css")
+    with open(style_file, "r") as f:
+        style = f.read().split("\n")
     return style
 
 

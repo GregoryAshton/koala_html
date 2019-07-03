@@ -71,7 +71,7 @@ setup(name='koala_html',
       version=VERSION,
       packages=['koala_html'],
       package_dir={'koala_html': 'src'},
-      package_data={'koala_html': [version_file]},
+      package_data={'koala_html': [version_file, "simple_style.css"]},
       entry_points={'console_scripts':
                     ['koala_table=koala_html.table:main']
                     },
