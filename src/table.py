@@ -2,12 +2,11 @@
 """ Simple HTML page generation """
 
 import argparse
+import os
 
 
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-d", "--directory", default=".",
-                        help="Output directory")
     parser.add_argument("-c", "--columnA", required=True, nargs="+",
                         help="First column of images")
     parser.add_argument("--columnB", nargs="+", default=None,
@@ -20,12 +19,13 @@ def get_args():
     return args
 
 
-def write_to_file(args):
+def write_to_file(args, body):
     text = ["<!DOCTYPE html>", "<html>", "<body>"]
+    text += body
     text += ["</body>", "</html>"]
-    index_file = f"{args.directory}/{args.page_name}"
+    index_file = f"{args.page_name}"
     with open(index_file, "w+") as f:
-        print(text, file=f)
+        print("\n".join(text), file=f)
 
 
 def get_table_list(args):
@@ -48,14 +48,23 @@ def get_table_list(args):
     return table_list
 
 
+def convert_element_to_HTML(args, element):
+    if os.path.isfile(element):
+        return f'<img src="{element}"  width="{args.image_size}">'
+    else:
+        return f'<b> {element} </b>'
+
+
 def convert_table_list_to_body(args, table_list):
     """ Generates the body (a list of HTML strings) """
     body = ['<table style="width:80%">']
-    for row in table_list:
-        table_list += ["<tr>"]
-        for filename in row:
-            image = f'<img src="{filename}"  width="{args.image_size}">'
-            body += f"<td> {image} <td>"
+    ncols = len(table_list)
+    nrows = len(table_list[0])
+    for i in range(nrows):
+        body += ["<tr>"]
+        for j in range(ncols):
+            html = convert_element_to_HTML(args, table_list[j][i])
+            body += [f"<td> {html} <td>"]
         body += ["</tr>"]
     return body
 
@@ -64,4 +73,4 @@ def main():
     args = get_args()
     table_list = get_table_list(args)
     body = convert_table_list_to_body(args, table_list)
-    write_to_file(body)
+    write_to_file(args, body)
