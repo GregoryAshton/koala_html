@@ -28,6 +28,6 @@ See
 
 .. code-block:: console
 
-   $ koala_table --htlp
+   $ koala_table --help
 
 

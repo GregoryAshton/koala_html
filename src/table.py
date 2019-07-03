@@ -32,11 +32,30 @@ def get_args():
 
 def write_to_file(args, body):
     text = ["<!DOCTYPE html>", "<html>", "<body>"]
+    text += get_style()
     text += body
     text += ["</body>", "</html>"]
     index_file = f"{args.page_name}"
     with open(index_file, "w+") as f:
         print("\n".join(text), file=f)
+
+
+def get_style():
+    style = ["""
+    <style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+    </style>
+    """]
+    return style
 
 
 def get_table_list(args):
@@ -65,13 +84,18 @@ def get_table_list(args):
     return table_list
 
 
-def convert_element_to_HTML(args, element):
+def convert_element_to_HTML(args, element, row=None):
+    tag = "td"
     if element is None:
-        return "N/A"
+        inner = "N/A"
     elif os.path.isfile(element):
-        return f'<img src="{element}"  width="{args.image_size}">'
+        inner = f'<img src="{element}"  width="{args.image_size}">'
     else:
-        return f'<b> {element} </b>'
+        inner = element
+        # If element is for the first row, set it as table header
+        if row == 0:
+            tag = "th"
+    return f"<{tag}> {inner} </{tag}>"
 
 
 def convert_table_list_to_body(args, table_list):
@@ -82,8 +106,7 @@ def convert_table_list_to_body(args, table_list):
     for i in range(nrows):
         body += ["<tr>"]
         for j in range(ncols):
-            html = convert_element_to_HTML(args, table_list[j][i])
-            body += [f"<td> {html} <td>"]
+            body += [convert_element_to_HTML(args, table_list[j][i], row=i)]
         body += ["</tr>"]
     return body
 
