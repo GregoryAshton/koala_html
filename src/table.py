@@ -1,22 +1,31 @@
 #!/usr/bin/env python
-""" Simple HTML page generation """
+""" A simple HTML page generation for tables
+
+This generates a simple HTML page for displaying images/text. Must be called
+from the directory in which the images are to be generated.
+
+Usage: The nth columns of images/text are given using the `-n` command line
+arguments. For example, this command will generate a html page consisting of a
+two-column table with headers PDF and CDF and images following the glob paths.
+
+  $ koala_table -1 PDF *pdf.png -2 CDF *.png
+
+"""
 
 import argparse
 import os
 
 
 def get_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-1", "--column1", required=True, nargs="+",
-                        help="First column of images")
-    parser.add_argument("-2", "--column2", nargs="+", default=None,
-                        help="Second column of images")
-    parser.add_argument("-3", "--columns3", nargs="+", default=None,
-                        help="Third column of images")
+    MAX_COLUMNS = 5
+    parser = argparse.ArgumentParser("koala_table", usage=__doc__)
+    parser.add_argument(f"-1", "--column1", required=True, nargs="+")
+    for ii in range(2, MAX_COLUMNS + 1):
+        parser.add_argument(f"-{ii}", f"--column{ii}", default=None, nargs="+")
     parser.add_argument("--image-size", type=int, default=500,
-                        help="Individual image size")
+                        help="Individual image size, defaults to 500")
     parser.add_argument("--page-name", type=str, default="index.html",
-                        help="Output name")
+                        help="Output name, defaults to index.html")
     args = parser.parse_args()
     return args
 
