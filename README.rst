@@ -19,7 +19,7 @@ From source
 
 .. code-block:: console
 
-   $ python setup.py install
+   $ pip install .
 
 Usage
 -----
@@ -30,4 +30,11 @@ See
 
    $ koala_table --help
 
+Creating a new release
+----------------------
+
+.. code-block:: console
+
+   $ git tag koala-html-vX.Y.Z
+   $ twine upload dist/koala_html-X.Y.Z.tar.gz
 
