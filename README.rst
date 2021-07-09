@@ -36,6 +36,8 @@ If you want to put them in separate columns, then use
 
    $ koala_table -1 *column1*png -2 *column2*png
 
+![Example](example.gif)
+
 For a full list of options, see
 
 .. code-block:: console
