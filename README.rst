@@ -24,7 +24,19 @@ From source
 Usage
 -----
 
-See
+If you have set of png files :code:`file1.png, file2.png,..`, you can put them all in a single HTML page (default :code:`index.html` by running
+
+.. code-block:: console
+
+   $ koala_table -1 *png
+
+If you want to put them in separate columns, then use
+
+.. code-block:: console
+
+   $ koala_table -1 *column1*png -2 *column2*png
+
+For a full list of options, see
 
 .. code-block:: console
 
