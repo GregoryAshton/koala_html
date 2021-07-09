@@ -19,13 +19,21 @@ import os
 def get_args():
     MAX_COLUMNS = 5
     parser = argparse.ArgumentParser("koala_table", usage=__doc__)
-    parser.add_argument(f"-1", "--column1", required=True, nargs="+")
+    parser.add_argument("-1", "--column1", required=True, nargs="+")
     for ii in range(2, MAX_COLUMNS + 1):
         parser.add_argument(f"-{ii}", f"--column{ii}", default=None, nargs="+")
-    parser.add_argument("--image-size", type=int, default=500,
-                        help="Individual image size, defaults to 500")
-    parser.add_argument("--page-name", type=str, default="index.html",
-                        help="Output name, defaults to index.html")
+    parser.add_argument(
+        "--image-size",
+        type=int,
+        default=500,
+        help="Individual image size, defaults to 500",
+    )
+    parser.add_argument(
+        "--page-name",
+        type=str,
+        default="index.html",
+        help="Output name, defaults to index.html",
+    )
     args = parser.parse_args()
     return args
 
