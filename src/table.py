@@ -14,11 +14,17 @@ two-column table with headers PDF and CDF and images following the glob paths.
 
 import argparse
 import os
+from ._version import get_versions
+
+__version__ = get_versions()["version"]
 
 
 def get_args():
     MAX_COLUMNS = 5
-    parser = argparse.ArgumentParser("koala_table", usage=__doc__)
+    parser = argparse.ArgumentParser(
+        "koala_table",
+        usage=f"koala_table v{__version__}\n" + __doc__
+    )
     parser.add_argument("-1", "--column1", required=True, nargs="+")
     for ii in range(2, MAX_COLUMNS + 1):
         parser.add_argument(f"-{ii}", f"--column{ii}", default=None, nargs="+")
